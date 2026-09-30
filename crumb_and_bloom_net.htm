@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crumb and Bloom | Artisan Home Bakery</title>
+  <!-- Google Fonts & Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#D4AF37',
+            goldDark: '#AA7C11',
+            charcoal: '#1A1A1A',
+            cream: '#FAF6F0',
+            creamCard: '#FFFDF9'
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['Montserrat', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #FAF6F0; color: #1A1A1A; font-family: 'Montserrat', sans-serif; }
+    .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%); }
+    .gold-text { background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Header / Navigation -->
+  <nav class="sticky top-0 z-40 bg-charcoal text-cream shadow-xl border-b border-gold/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div>
+          <h1 class="font-serif text-2xl font-bold tracking-wider gold-text">CRUMB AND BLOOM</h1>
+          <p class="text-[10px] tracking-widest text-gold/80 uppercase">Baked With Love, Blossomed With Flavour</p>
+        </div>
+      </div>
+      <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
+        <a href="#about" class="hover:text-gold transition">ABOUT</a>
+        <a href="#menu" class="hover:text-gold transition">MENU</a>
+        <a href="#contact" class="hover:text-gold transition">CONTACT</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button onclick="toggleCart()" class="relative p-2 gold-gradient text-charcoal rounded-full font-bold">
+          🛒 <span id="cart-count" class="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">0</span>
+        </button>
+        <button onclick="loginAdmin()" class="text-xs border border-gold/50 px-3 py-1.5 rounded hover:bg-gold hover:text-charcoal transition font-semibold text-gold">
+          🔒 ADMIN
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dynamic Hero Section -->
+  <section id="hero-section" class="relative bg-charcoal text-cream py-32 px-4 text-center border-b border-gold/20 bg-cover bg-center transition-all duration-500">
+    <div class="absolute inset-0 bg-black/65"></div>
+    <div class="relative z-10 max-w-4xl mx-auto space-y-6">
+      <h2 class="font-serif text-4xl sm:text-6xl font-bold tracking-wide drop-shadow-lg">Artisan Bakes, Freshly Made to Order</h2>
+      <p class="text-gold text-lg italic max-w-2xl mx-auto drop-shadow">"Every great recipe starts with a simple feeling: the joy of creating something warm, comforting, and memorable."</p>
+      <div class="pt-4">
+        <a href="#menu" class="gold-gradient text-charcoal px-8 py-3 rounded-full font-semibold tracking-wider hover:opacity-90 transition shadow-xl inline-block">EXPLORE MENU</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 max-w-5xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <h3 id="about-title-display" class="font-serif text-3xl font-bold gold-text">Baked with Passion, Shared with Heart</h3>
+      <div class="w-16 h-0.5 bg-gold mx-auto mt-2"></div>
+    </div>
+    <div class="bg-creamCard p-8 sm:p-12 rounded-2xl shadow-md border border-gold/20 space-y-6 text-gray-700 leading-relaxed">
+      <p id="about-desc-display"></p>
+      <div class="grid md:grid-cols-3 gap-6 pt-6 border-t border-gray-100">
+        <div class="space-y-2">
+          <h4 id="feature1-title-display" class="font-serif font-bold text-charcoal text-lg">Handcrafted from Scratch</h4>
+          <p id="feature1-desc-display" class="text-sm">No pre-made mixes or shortcuts. Every sponge, cream, and crust is made entirely by hand.</p>
+        </div>
+        <div class="space-y-2">
+          <h4 id="feature2-title-display" class="font-serif font-bold text-charcoal text-lg">Premium Ingredients</h4>
+          <p id="feature2-desc-display" class="text-sm">High-quality butter, fine chocolates, real vanilla, and fresh local ingredients for real taste.</p>
+        </div>
+        <div class="space-y-2">
+          <h4 id="feature3-title-display" class="font-serif font-bold text-charcoal text-lg">Made to Order</h4>
+          <p id="feature3-desc-display" class="text-sm">Nothing sits on a shelf. Your order is baked fresh specifically for your celebration.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Section -->
+  <section id="menu" class="py-16 bg-charcoal text-cream">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-10">
+        <h3 class="font-serif text-3xl font-bold gold-text">Our Menu</h3>
+        <p class="text-xs text-gray-400 mt-1">Select a category to explore fresh delicacies</p>
+      </div>
+
+      <div id="category-tabs" class="flex flex-wrap justify-center gap-2 mb-10"></div>
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 max-w-5xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <h3 class="font-serif text-3xl font-bold gold-text">Connect With Us</h3>
+      <div class="w-16 h-0.5 bg-gold mx-auto mt-2"></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8 bg-creamCard p-8 rounded-2xl border border-gold/20 shadow-md">
+      <div class="space-y-4">
+        <h4 class="font-serif text-xl font-bold text-charcoal">Address & Location</h4>
+        <p class="text-gray-600">Anchalassery House, Edavanakad, Ernakulam</p>
+        <div class="pt-4 space-y-2">
+          <h5 class="font-semibold text-charcoal">Order & Queries:</h5>
+          <div id="contact-numbers-container"></div>
+        </div>
+      </div>
+      <div class="space-y-4 flex flex-col justify-center">
+        <h4 class="font-serif text-xl font-bold text-charcoal">Follow Our Journey</h4>
+        <div id="social-links-container" class="flex flex-wrap gap-4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-charcoal text-cream/60 py-8 text-center border-t border-gold/20 text-xs">
+    <p>© 2026 Crumb and Bloom. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Shopping Cart Drawer -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex justify-end">
+    <div class="w-full max-w-md bg-cream text-charcoal h-full p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
+      <div>
+        <div class="flex justify-between items-center border-b border-gold/30 pb-4">
+          <h3 class="font-serif font-bold text-xl gold-text">Your Order Cart</h3>
+          <button onclick="toggleCart()" class="text-2xl font-bold text-gray-500">&times;</button>
+        </div>
+        <div id="cart-items" class="py-4 space-y-4 max-h-[35vh] overflow-y-auto"></div>
+
+        <!-- Customer Info Form with Location Options -->
+        <div class="mt-4 p-4 bg-white rounded-lg border border-gold/30 space-y-3">
+          <h4 class="font-bold text-xs text-charcoal uppercase tracking-wider">Customer & Delivery Details</h4>
+          <input type="text" id="cust-name" placeholder="Your Full Name *" class="w-full p-2 border border-gray-300 rounded text-xs">
+          <input type="tel" id="cust-phone" placeholder="WhatsApp Number (10 digits) *" class="w-full p-2 border border-gray-300 rounded text-xs">
+          <textarea id="cust-address" placeholder="Delivery Address / Landmark" class="w-full p-2 border border-gray-300 rounded text-xs h-16"></textarea>
+
+          <!-- Location Capture Option -->
+          <div class="space-y-2 pt-1 border-t border-gray-100">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-semibold text-gray-600">Google Location Link:</span>
+              <button type="button" onclick="getCurrentLocation()" class="text-[10px] bg-blue-100 text-blue-700 hover:bg-blue-200 px-2 py-1 rounded font-bold flex items-center gap-1">
+                📍 Get My Live Location
+              </button>
+            </div>
+            <input type="url" id="cust-location" placeholder="Paste Google Maps Link or click 'Get Live Location'" class="w-full p-2 border border-gray-300 rounded text-xs bg-gray-50 text-blue-600">
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gold/30 pt-4 space-y-4 mt-4">
+        <div class="flex justify-between font-bold text-lg">
+          <span>Total:</span>
+          <span id="cart-total">₹0</span>
+        </div>
+        <button onclick="sendWhatsAppOrder()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-lg flex justify-center items-center gap-2">
+          <span>Place Order via WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL MODAL -->
+  <div id="admin-panel" class="fixed inset-0 z-50 hidden bg-black/85 p-4 sm:p-8 overflow-y-auto">
+    <div class="max-w-5xl mx-auto bg-charcoal text-cream rounded-2xl p-6 border border-gold space-y-8">
+      
+      <div class="flex justify-between items-center border-b border-gold/40 pb-4">
+        <h2 class="font-serif text-2xl font-bold gold-text">Admin Dashboard</h2>
+        <button onclick="closeAdmin()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm font-semibold">Close Admin</button>
+      </div>
+
+      <!-- 1. ORDER TRACKING & LOCATION MANAGEMENT -->
+      <div class="bg-gray-900/80 p-5 rounded-xl border border-gold/40 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-gold text-lg">1. Order Tracking & Location Map Details</h3>
+          <button onclick="clearAllOrders()" class="text-xs bg-red-800 text-white px-3 py-1 rounded hover:bg-red-700">Clear All Orders</button>
+        </div>
+        <p class="text-xs text-gray-400">Track orders, view customer Google Maps location, and send WhatsApp status messages.</p>
+        
+        <div id="admin-orders-list" class="space-y-4 max-h-[500px] overflow-y-auto pt-2"></div>
+      </div>
+
+      <!-- 2. HERO BANNER IMAGE MANAGEMENT -->
+      <div class="bg-gray-900/80 p-5 rounded-xl border border-gold/30 space-y-4">
+        <h3 class="font-bold text-gold text-lg">2. Manage Hero Banner Image</h3>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-300">Option A: Image URL</label>
+            <input type="text" id="hero-url-input" placeholder="Paste Image URL (https://...)" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-300">Option B: Upload from Gallery / Device</label>
+            <input type="file" id="hero-file-input" accept="image/*" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          </div>
+          <div class="flex gap-3 pt-2">
+            <button onclick="saveHeroImage()" class="gold-gradient text-charcoal font-bold px-5 py-2 rounded text-xs hover:opacity-90">Apply Image</button>
+            <button onclick="removeHeroImage()" class="bg-red-600 text-white font-bold px-5 py-2 rounded text-xs hover:bg-red-700">Remove Image</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. EDIT ABOUT US SECTION -->
+      <div class="bg-gray-900/80 p-5 rounded-xl border border-gold/30 space-y-4">
+        <h3 class="font-bold text-gold text-lg">3. Edit About Us Content</h3>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-300">About Section Title</label>
+            <input type="text" id="about-title-input" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-300">Main Description</label>
+            <textarea id="about-desc-input" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full h-24"></textarea>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-3 pt-2">
+            <div>
+              <label class="block text-[11px] text-gray-400">Feature 1 Title & Desc</label>
+              <input type="text" id="f1-title-input" class="bg-gray-800 text-white p-1.5 rounded text-xs border border-gray-700 w-full mb-1">
+              <input type="text" id="f1-desc-input" class="bg-gray-800 text-white p-1.5 rounded text-xs border border-gray-700 w-full">
+            </div>
+            <div>
+              <label class="block text-[11px] text-gray-400">Feature 2 Title & Desc</label>
+              <input type="text" id="f2-title-input" class="bg-gray-800 text-white p-1.5 rounded text-xs border border-gray-700 w-full mb-1">
+              <input type="text" id="f2-desc-input" class="bg-gray-800 text-white p-1.5 rounded text-xs border border-gray-700 w-full">
+            </div>
+            <div>
+              <label class="block text-[11px] text-gray-400">Feature 3 Title & Desc</label>
+              <input type="text" id="f3-title-input" class="bg-gray-800 text-white p-1.5 rounded text-xs border border-gray-700 w-full mb-1">
+              <input type="text" id="f3-desc-input" class="bg-gray-800 text-white p-1.5 rounded text-xs border border-gray-700 w-full">
+            </div>
+          </div>
+          <button onclick="saveAboutContent()" class="gold-gradient text-charcoal font-bold px-5 py-2 rounded text-xs hover:opacity-90">Save About Details</button>
+        </div>
+      </div>
+
+      <!-- 4. EDIT CONTACT NUMBERS -->
+      <div class="bg-gray-900/80 p-5 rounded-xl border border-gold/30 space-y-4">
+        <h3 class="font-bold text-gold text-lg">4. Edit Contact Numbers</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold text-gray-300">Contact 1 (Name & Mobile Number)</label>
+            <input type="text" id="c1-name-input" placeholder="Name" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+            <input type="text" id="c1-num-input" placeholder="Mobile Number" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          </div>
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold text-gray-300">Contact 2 (Name & Mobile Number)</label>
+            <input type="text" id="c2-name-input" placeholder="Name" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+            <input type="text" id="c2-num-input" placeholder="Mobile Number" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          </div>
+        </div>
+        <button onclick="saveContactNumbers()" class="gold-gradient text-charcoal font-bold px-5 py-2 rounded text-xs hover:opacity-90">Save Contact Numbers</button>
+      </div>
+
+      <!-- 5. MANAGE SOCIAL MEDIA LINKS -->
+      <div class="bg-gray-900/80 p-5 rounded-xl border border-gold/30 space-y-4">
+        <h3 class="font-bold text-gold text-lg">5. Manage Social Media Links</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-300">Instagram Profile Link</label>
+            <input type="text" id="insta-link-input" placeholder="https://instagram.com/..." class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1 text-gray-300">Facebook Page Link</label>
+            <input type="text" id="fb-link-input" placeholder="https://facebook.com/..." class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          </div>
+        </div>
+        <button onclick="saveSocialLinks()" class="gold-gradient text-charcoal font-bold px-5 py-2 rounded text-xs hover:opacity-90">Save Social Links</button>
+      </div>
+
+      <!-- 6. PRODUCT MANAGEMENT -->
+      <div class="bg-gray-900/80 p-5 rounded-xl border border-gold/30 space-y-4">
+        <h3 class="font-bold text-gold text-lg">6. Add / Update Product</h3>
+        <input type="hidden" id="prod-id">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input type="text" id="prod-title" placeholder="Product Title" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          <select id="prod-category" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+            <option value="" disabled selected>Select Category</option>
+          </select>
+          <input type="number" id="prod-price" placeholder="Price (₹)" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+          
+          <div class="space-y-1">
+            <input type="text" id="prod-image" placeholder="Image URL (https://...)" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full">
+            <div class="text-[10px] text-gray-400">or upload:</div>
+            <input type="file" id="prod-file-input" accept="image/*" onchange="convertProdFileToBase64()" class="bg-gray-800 text-xs text-white p-1 rounded w-full">
+          </div>
+        </div>
+        <textarea id="prod-desc" placeholder="Product Description" class="bg-gray-800 text-white p-2 rounded text-sm border border-gray-700 w-full h-20"></textarea>
+        <button type="button" onclick="handleSaveProduct()" class="gold-gradient text-charcoal font-bold px-6 py-2 rounded text-xs hover:opacity-90">Save Product</button>
+      </div>
+
+      <!-- 7. INVENTORY LIST -->
+      <div class="bg-gray-900/80 p-5 rounded-xl border border-gold/30 space-y-4">
+        <h3 class="font-bold text-gold text-lg">Product Inventory</h3>
+        <div id="admin-product-list" class="space-y-3"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const INITIAL_CATEGORIES = [
+      "All",
+      "Yeast-Leavened Breads & Rolls",
+      "Viennoiserie (Laminated & Enriched Pastries)",
+      "Cakes & Cupcakes",
+      "Pastries & Classic French Patisserie",
+      "Pies, Cobblers & Crisps",
+      "Cookies & Biscuits",
+      "Quick Breads, Scones & Muffins",
+      "Baked Confectionery & Sweet Treats",
+      "Short Cakes"
+    ];
+
+    const DEFAULT_HERO_IMAGE = "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1600&q=80";
+
+    let categories = INITIAL_CATEGORIES;
+    let products = [];
+    let orders = [];
+    let heroImage = DEFAULT_HERO_IMAGE;
+    let socialLinks = { instagram: "https://www.instagram.com/crumbandblooomm?stkn=OHJwcmJkaHBlYzNj", facebook: "" };
+
+    let aboutContent = {
+      title: "Baked with Passion, Shared with Heart",
+      description: "My journey began right here in my home kitchen. What started as late-night experiments, tweaking recipes to perfection, and filling the house with the aroma of freshly melted chocolate, toasted spices, and warm vanilla quickly turned into a lifelong calling.",
+      f1Title: "Handcrafted from Scratch", f1Desc: "No pre-made mixes or shortcuts. Every sponge, cream, and crust is made entirely by hand.",
+      f2Title: "Premium Ingredients", f2Desc: "High-quality butter, fine chocolates, real vanilla, and fresh local ingredients for real taste.",
+      f3Title: "Made to Order", f3Desc: "Nothing sits on a shelf. Your order is baked fresh specifically for your celebration."
+    };
+
+    let contactData = { c1Name: "Kashi", c1Number: "8714909234", c2Name: "Anadhu", c2Number: "7306903265" };
+
+    try {
+      const storedProds = localStorage.getItem('cb_products');
+      if(storedProds) products = JSON.parse(storedProds);
+
+      const storedOrders = localStorage.getItem('cb_orders');
+      if(storedOrders) orders = JSON.parse(storedOrders);
+
+      const storedHero = localStorage.getItem('cb_hero_image');
+      if(storedHero !== null) heroImage = storedHero;
+
+      const storedSocial = localStorage.getItem('cb_social_links');
+      if(storedSocial) socialLinks = JSON.parse(storedSocial);
+
+      const storedAbout = localStorage.getItem('cb_about_content');
+      if(storedAbout) aboutContent = JSON.parse(storedAbout);
+
+      const storedContact = localStorage.getItem('cb_contact_data');
+      if(storedContact) contactData = JSON.parse(storedContact);
+    } catch(e) {}
+
+    if(!products || products.length === 0) {
+      products = [{ id: "1", title: "Butter Cookies", category: "Cookies & Biscuits", price: 45, image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80", desc: "Crispy butter cookies baked to golden perfection." }];
+    }
+
+    let cart = [];
+    let activeCategory = "All";
+
+    function init() {
+      applyHeroImageUI();
+      renderAboutUI();
+      renderContactUI();
+      renderSocialLinksUI();
+      renderCategoryTabs();
+      renderProducts();
+      populateCategorySelect();
+    }
+
+    // Get GPS Location Function
+    function getCurrentLocation() {
+      const locationInput = document.getElementById('cust-location');
+      if (navigator.geolocation) {
+        locationInput.value = "Fetching live GPS location...";
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+            locationInput.value = mapUrl;
+          },
+          (error) => {
+            alert("Could not fetch location. Please grant location permission or paste Google Maps link manually.");
+            locationInput.value = "";
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by your browser.");
+      }
+    }
+
+    function applyHeroImageUI() {
+      const heroSection = document.getElementById('hero-section');
+      if(heroImage && heroImage.trim() !== '') { heroSection.style.backgroundImage = `url('${heroImage}')`; } 
+      else { heroSection.style.backgroundImage = 'none'; heroSection.style.backgroundColor = '#1A1A1A'; }
+    }
+
+    function saveHeroImage() {
+      const urlInput = document.getElementById('hero-url-input').value.trim();
+      const fileInput = document.getElementById('hero-file-input');
+      if(fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          heroImage = e.target.result;
+          try { localStorage.setItem('cb_hero_image', heroImage); } catch(err){}
+          applyHeroImageUI();
+          alert("Hero background updated!");
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if(urlInput !== '') {
+        heroImage = urlInput;
+        try { localStorage.setItem('cb_hero_image', heroImage); } catch(err){}
+        applyHeroImageUI();
+        alert("Hero background updated!");
+      }
+    }
+
+    function removeHeroImage() {
+      heroImage = '';
+      try { localStorage.setItem('cb_hero_image', ''); } catch(err){}
+      applyHeroImageUI();
+      alert("Hero banner image removed!");
+    }
+
+    function renderAboutUI() {
+      document.getElementById('about-title-display').innerText = aboutContent.title;
+      document.getElementById('about-desc-display').innerText = aboutContent.description;
+      document.getElementById('feature1-title-display').innerText = aboutContent.f1Title;
+      document.getElementById('feature1-desc-display').innerText = aboutContent.f1Desc;
+      document.getElementById('feature2-title-display').innerText = aboutContent.f2Title;
+      document.getElementById('feature2-desc-display').innerText = aboutContent.f2Desc;
+      document.getElementById('feature3-title-display').innerText = aboutContent.f3Title;
+      document.getElementById('feature3-desc-display').innerText = aboutContent.f3Desc;
+    }
+
+    function saveAboutContent() {
+      aboutContent.title = document.getElementById('about-title-input').value.trim();
+      aboutContent.description = document.getElementById('about-desc-input').value.trim();
+      aboutContent.f1Title = document.getElementById('f1-title-input').value.trim();
+      aboutContent.f1Desc = document.getElementById('f1-desc-input').value.trim();
+      aboutContent.f2Title = document.getElementById('f2-title-input').value.trim();
+      aboutContent.f2Desc = document.getElementById('f2-desc-input').value.trim();
+      aboutContent.f3Title = document.getElementById('f3-title-input').value.trim();
+      aboutContent.f3Desc = document.getElementById('f3-desc-input').value.trim();
+      try { localStorage.setItem('cb_about_content', JSON.stringify(aboutContent)); } catch(e) {}
+      renderAboutUI();
+      alert("About Us updated!");
+    }
+
+    function renderContactUI() {
+      const container = document.getElementById('contact-numbers-container');
+      let html = '';
+      if(contactData.c1Name || contactData.c1Number) { html += `<p class="text-gray-700">📞 ${contactData.c1Name}: <a href="tel:${contactData.c1Number}" class="text-goldDark font-bold">${contactData.c1Number}</a></p>`; }
+      if(contactData.c2Name || contactData.c2Number) { html += `<p class="text-gray-700">📞 ${contactData.c2Name}: <a href="tel:${contactData.c2Number}" class="text-goldDark font-bold">${contactData.c2Number}</a></p>`; }
+      container.innerHTML = html;
+    }
+
+    function saveContactNumbers() {
+      contactData.c1Name = document.getElementById('c1-name-input').value.trim();
+      contactData.c1Number = document.getElementById('c1-num-input').value.trim();
+      contactData.c2Name = document.getElementById('c2-name-input').value.trim();
+      contactData.c2Number = document.getElementById('c2-num-input').value.trim();
+      try { localStorage.setItem('cb_contact_data', JSON.stringify(contactData)); } catch(e) {}
+      renderContactUI();
+      alert("Contact numbers updated!");
+    }
+
+    function renderSocialLinksUI() {
+      const container = document.getElementById('social-links-container');
+      let html = '';
+      if(socialLinks.instagram) { html += `<a href="${socialLinks.instagram}" target="_blank" class="gold-gradient text-charcoal px-6 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 inline-block">Instagram</a>`; }
+      if(socialLinks.facebook) { html += `<a href="${socialLinks.facebook}" target="_blank" class="bg-blue-600 text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 inline-block">Facebook</a>`; }
+      container.innerHTML = html;
+    }
+
+    function saveSocialLinks() {
+      socialLinks.instagram = document.getElementById('insta-link-input').value.trim();
+      socialLinks.facebook = document.getElementById('fb-link-input').value.trim();
+      try { localStorage.setItem('cb_social_links', JSON.stringify(socialLinks)); } catch(e) {}
+      renderSocialLinksUI();
+      alert("Social links saved!");
+    }
+
+    function renderCategoryTabs() {
+      const container = document.getElementById('category-tabs');
+      container.innerHTML = categories.map(cat => `
+        <button onclick="setCategory('${cat}')" class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition ${activeCategory === cat ? 'gold-gradient text-charcoal shadow-md' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    function setCategory(cat) {
+      activeCategory = cat;
+      renderCategoryTabs();
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      const filtered = activeCategory === "All" ? products : products.filter(p => p.category === activeCategory);
+
+      if(filtered.length === 0) {
+        grid.innerHTML = `<p class="col-span-full text-center text-gray-400 py-10">No items available.</p>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => `
+        <div class="bg-creamCard text-charcoal rounded-2xl overflow-hidden shadow-lg border border-gold/20 flex flex-col justify-between">
+          <div>
+            <img src="${p.image}" alt="${p.title}" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <span class="text-[10px] uppercase font-bold tracking-wider text-goldDark">${p.category}</span>
+              <h4 class="font-serif font-bold text-lg mt-1">${p.title}</h4>
+              <p class="text-xs text-gray-600 mt-2">${p.desc || ''}</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between mt-4">
+            <span class="font-bold text-lg">₹${p.price}</span>
+            <button onclick="addToCart('${p.id}')" class="gold-gradient text-charcoal text-xs font-bold px-4 py-2 rounded-full hover:opacity-90">Add to Cart</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addToCart(id) {
+      const prod = products.find(p => p.id === id);
+      const item = cart.find(c => c.id === id);
+      if(item) { item.qty += 1; }
+      else { cart.push({...prod, qty: 1}); }
+      updateCartUI();
+      toggleCart(true);
+    }
+
+    function toggleCart(open = null) {
+      const drawer = document.getElementById('cart-drawer');
+      if(open === true) drawer.classList.remove('hidden');
+      else if(open === false) drawer.classList.add('hidden');
+      else drawer.classList.toggle('hidden');
+    }
+
+    function updateCartUI() {
+      const count = cart.reduce((acc, c) => acc + c.qty, 0);
+      const total = cart.reduce((acc, c) => acc + (c.price * c.qty), 0);
+      document.getElementById('cart-count').innerText = count;
+      document.getElementById('cart-total').innerText = '₹' + total;
+
+      const container = document.getElementById('cart-items');
+      container.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200">
+          <div>
+            <h5 class="font-bold text-sm">${item.title}</h5>
+            <p class="text-xs text-gray-500">₹${item.price} x ${item.qty}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="changeQty('${item.id}', -1)" class="px-2 py-0.5 bg-gray-200 rounded font-bold">-</button>
+            <span class="text-xs">${item.qty}</span>
+            <button onclick="changeQty('${item.id}', 1)" class="px-2 py-0.5 bg-gray-200 rounded font-bold">+</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(c => c.id === id);
+      if(item) {
+        item.qty += delta;
+        if(item.qty <= 0) cart = cart.filter(c => c.id !== id);
+      }
+      updateCartUI();
+    }
+
+    // Place Order via WhatsApp
+    function sendWhatsAppOrder() {
+      if(cart.length === 0) return alert("Your cart is empty!");
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+      const location = document.getElementById('cust-location').value.trim();
+
+      if(!name || !phone) {
+        return alert("Please enter your Full Name and WhatsApp Number!");
+      }
+
+      const orderId = "CB-" + Math.floor(1000 + Math.random() * 9000);
+      const total = cart.reduce((acc, c) => acc + (c.price * c.qty), 0);
+      
+      const newOrder = {
+        id: orderId,
+        date: new Date().toLocaleString(),
+        customer: { name, phone, address, location },
+        items: [...cart],
+        total: total,
+        status: "Pending"
+      };
+
+      orders.unshift(newOrder);
+      try { localStorage.setItem('cb_orders', JSON.stringify(orders)); } catch(e){}
+
+      let targetPhone = contactData.c1Number || "8714909234";
+      let text = `*NEW ORDER #${orderId}*\n\n`;
+      text += `*Customer:* ${name}\n*Phone:* ${phone}\n*Address:* ${address || 'N/A'}\n`;
+      if(location) { text += `*Google Map Location:* ${location}\n`; }
+      text += `\n*Items Ordered:*\n`;
+      cart.forEach((c, idx) => { text += `${idx+1}. ${c.title} - ${c.qty} qty @ ₹${c.price * c.qty}\n`; });
+      text += `\n*Total Amount:* ₹${total}\n\nPlease process my order!`;
+
+      cart = [];
+      updateCartUI();
+      document.getElementById('cust-name').value = '';
+      document.getElementById('cust-phone').value = '';
+      document.getElementById('cust-address').value = '';
+      document.getElementById('cust-location').value = '';
+      toggleCart(false);
+
+      const encoded = encodeURIComponent(text);
+      window.open(`https://wa.me/91${targetPhone}?text=${encoded}`, '_blank');
+    }
+
+    // Admin Orders Management & Google Map Display
+    function renderAdminOrdersList() {
+      const container = document.getElementById('admin-orders-list');
+      if(orders.length === 0) {
+        container.innerHTML = `<p class="text-gray-400 text-xs py-4">No active orders tracked yet.</p>`;
+        return;
+      }
+
+      container.innerHTML = orders.map(ord => {
+        const isCompleted = ord.status === "Completed";
+        return `
+          <div class="bg-gray-800 p-4 rounded-lg border ${isCompleted ? 'border-green-600/50' : 'border-yellow-600/50'} space-y-3">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-gray-700 pb-2">
+              <div>
+                <span class="font-bold text-gold text-sm">Order ID: ${ord.id}</span>
+                <span class="text-[10px] text-gray-400 ml-2">(${ord.date})</span>
+              </div>
+              <span class="px-2 py-0.5 text-[10px] rounded font-bold uppercase ${isCompleted ? 'bg-green-800 text-green-200' : 'bg-yellow-800 text-yellow-200'}">
+                Status: ${ord.status}
+              </span>
+            </div>
+
+            <div class="text-xs text-gray-300 space-y-1">
+              <p><strong class="text-white">Customer:</strong> ${ord.customer.name} | 📞 ${ord.customer.phone}</p>
+              <p><strong class="text-white">Address:</strong> ${ord.customer.address || 'N/A'}</p>
+              
+              ${ord.customer.location ? `
+                <p class="pt-1">
+                  <strong class="text-white">Google Map Location:</strong> 
+                  <a href="${ord.customer.location}" target="_blank" class="text-blue-400 underline hover:text-blue-300 font-semibold ml-1">
+                    📍 Open Delivery Location in Google Maps
+                  </a>
+                </p>
+              ` : '<p class="text-gray-500 italic">No Map Location Provided</p>'}
+
+              <div class="bg-gray-900 p-2 rounded mt-2">
+                <p class="font-bold text-gray-400 mb-1">Items:</p>
+                ${ord.items.map(i => `<p>• ${i.title} (${i.qty} x ₹${i.price})</p>`).join('')}
+                <p class="font-bold text-gold mt-1 pt-1 border-t border-gray-800">Total: ₹${ord.total}</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-1">
+              ${!isCompleted ? `
+                <button onclick="markOrderCompleted('${ord.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-3 py-1.5 rounded flex items-center gap-1">
+                  ✓ Mark Completed & Send WhatsApp Thanks
+                </button>
+              ` : `
+                <button onclick="sendWhatsAppThankYou('${ord.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-3 py-1.5 rounded flex items-center gap-1">
+                  💬 Resend WhatsApp Thanking Message
+                </button>
+              `}
+              <button onclick="deleteOrder('${ord.id}')" class="bg-red-800 hover:bg-red-700 text-white text-xs px-2 py-1.5 rounded">Delete Order</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function markOrderCompleted(orderId) {
+      const ord = orders.find(o => o.id === orderId);
+      if(ord) {
+        ord.status = "Completed";
+        try { localStorage.setItem('cb_orders', JSON.stringify(orders)); } catch(e){}
+        renderAdminOrdersList();
+        sendWhatsAppThankYou(orderId);
+      }
+    }
+
+    function sendWhatsAppThankYou(orderId) {
+      const ord = orders.find(o => o.id === orderId);
+      if(!ord) return;
+
+      let cleanPhone = ord.customer.phone.replace(/[^0-9]/g, '');
+      if(cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
+
+      let thankMsg = `Hello ${ord.customer.name},\n\n`;
+      thankMsg += `✨ *Your Order #${ord.id} has been Completed!* ✨\n\n`;
+      thankMsg += `Thank you for ordering with *Crumb and Bloom*. We hope you thoroughly enjoy your fresh bakes! 🥐🍰\n\n`;
+      thankMsg += `We look forward to serving you again soon! Have a wonderful day ahead. ❤️`;
+
+      const encoded = encodeURIComponent(thankMsg);
+      window.open(`https://wa.me/${cleanPhone}?text=${encoded}`, '_blank');
+    }
+
+    function deleteOrder(orderId) {
+      if(confirm("Delete this order log permanently?")) {
+        orders = orders.filter(o => o.id !== orderId);
+        try { localStorage.setItem('cb_orders', JSON.stringify(orders)); } catch(e){}
+        renderAdminOrdersList();
+      }
+    }
+
+    function clearAllOrders() {
+      if(confirm("Are you sure you want to delete all order logs?")) {
+        orders = [];
+        try { localStorage.setItem('cb_orders', JSON.stringify(orders)); } catch(e){}
+        renderAdminOrdersList();
+      }
+    }
+
+    function loginAdmin() {
+      const pwd = prompt("Enter Admin Password:");
+      if(pwd === "admin123") {
+        populateCategorySelect();
+        
+        document.getElementById('hero-url-input').value = heroImage.startsWith('data:') ? '' : heroImage;
+        document.getElementById('insta-link-input').value = socialLinks.instagram || '';
+        document.getElementById('fb-link-input').value = socialLinks.facebook || '';
+        
+        document.getElementById('about-title-input').value = aboutContent.title;
+        document.getElementById('about-desc-input').value = aboutContent.description;
+        document.getElementById('f1-title-input').value = aboutContent.f1Title;
+        document.getElementById('f1-desc-input').value = aboutContent.f1Desc;
+        document.getElementById('f2-title-input').value = aboutContent.f2Title;
+        document.getElementById('f2-desc-input').value = aboutContent.f2Desc;
+        document.getElementById('f3-title-input').value = aboutContent.f3Title;
+        document.getElementById('f3-desc-input').value = aboutContent.f3Desc;
+
+        document.getElementById('c1-name-input').value = contactData.c1Name;
+        document.getElementById('c1-num-input').value = contactData.c1Number;
+        document.getElementById('c2-name-input').value = contactData.c2Name;
+        document.getElementById('c2-num-input').value = contactData.c2Number;
+
+        document.getElementById('admin-panel').classList.remove('hidden');
+        renderAdminOrdersList();
+        renderAdminList();
+      } else if(pwd !== null) {
+        alert("Incorrect Password! Access Denied.");
+      }
+    }
+
+    function closeAdmin() {
+      document.getElementById('admin-panel').classList.add('hidden');
+    }
+
+    function populateCategorySelect() {
+      const sel = document.getElementById('prod-category');
+      const catOptions = categories
+        .filter(c => c !== "All")
+        .map(c => `<option value="${c}">${c}</option>`)
+        .join('');
+      sel.innerHTML = `<option value="" disabled selected>Select Category</option>` + catOptions;
+    }
+
+    function convertProdFileToBase64() {
+      const fileInput = document.getElementById('prod-file-input');
+      if(fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('prod-image').value = e.target.result;
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    }
+
+    function handleSaveProduct() {
+      const id = document.getElementById('prod-id').value || Date.now().toString();
+      const title = document.getElementById('prod-title').value.trim();
+      const category = document.getElementById('prod-category').value;
+      const price = parseFloat(document.getElementById('prod-price').value);
+      const image = document.getElementById('prod-image').value.trim();
+      const desc = document.getElementById('prod-desc').value.trim();
+
+      if(!title || !category || isNaN(price) || !image) {
+        alert("Please fill in Title, Category, Price, and Image!");
+        return;
+      }
+
+      const existingIndex = products.findIndex(p => p.id === id);
+      const productData = { id, title, category, price, image, desc };
+
+      if(existingIndex > -1) { products[existingIndex] = productData; }
+      else { products.push(productData); }
+
+      try { localStorage.setItem('cb_products', JSON.stringify(products)); } catch(e) {}
+
+      document.getElementById('prod-id').value = '';
+      document.getElementById('prod-title').value = '';
+      document.getElementById('prod-price').value = '';
+      document.getElementById('prod-image').value = '';
+      document.getElementById('prod-desc').value = '';
+      document.getElementById('prod-file-input').value = '';
+      populateCategorySelect();
+
+      renderProducts();
+      renderAdminList();
+      alert("Product saved successfully!");
+    }
+
+    function editProduct(id) {
+      const p = products.find(prod => prod.id === id);
+      if(p) {
+        document.getElementById('prod-id').value = p.id;
+        document.getElementById('prod-title').value = p.title;
+        document.getElementById('prod-category').value = p.category;
+        document.getElementById('prod-price').value = p.price;
+        document.getElementById('prod-image').value = p.image;
+        document.getElementById('prod-desc').value = p.desc;
+      }
+    }
+
+    function deleteProduct(id) {
+      if(confirm("Are you sure you want to remove this product?")) {
+        products = products.filter(p => p.id !== id);
+        try { localStorage.setItem('cb_products', JSON.stringify(products)); } catch(e) {}
+        renderProducts();
+        renderAdminList();
+      }
+    }
+
+    function renderAdminList() {
+      const container = document.getElementById('admin-product-list');
+      container.innerHTML = products.map(p => `
+        <div class="flex items-center justify-between bg-gray-800 p-3 rounded border border-gray-700">
+          <div class="flex items-center gap-3">
+            <img src="${p.image}" class="w-12 h-12 object-cover rounded">
+            <div>
+              <p class="font-bold text-sm text-gold">${p.title}</p>
+              <p class="text-xs text-gray-400">${p.category} - ₹${p.price}</p>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="editProduct('${p.id}')" class="bg-blue-600 text-white text-xs px-3 py-1 rounded">Edit</button>
+            <button onclick="deleteProduct('${p.id}')" class="bg-red-600 text-white text-xs px-3 py-1 rounded">Remove</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    init();
+  </script>
+</body>
+</html>
